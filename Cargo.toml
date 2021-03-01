@@ -30,7 +30,7 @@ humantime = "2"
 humansize = "1"
 regex = "1.4"
 fake = { version = "2.4", features = ["chrono"] }
-wasm-bindgen = "0.2.69"
+wasm-bindgen = "0.2.71"
 anyhow = "1"
 progress_string = "0.1"
 instant = { version = "0.1", features = ["now", "wasm-bindgen"] }
@@ -47,5 +47,5 @@ async-std = { version = "1.9", features = ["attributes"] }
 term_size = "1.0.0-beta1"
 
 [dependencies.web-sys]
-version = "0.3.47"
+version = "0.3.48"
 features = ["Window", "Location", "console"]

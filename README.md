@@ -1,8 +1,7 @@
 # genact - a nonsense activity generator
 
 [![CI](https://github.com/svenstaro/genact/workflows/CI/badge.svg)](https://github.com/svenstaro/genact/actions)
-[![DockerHub](https://img.shields.io/docker/build/svenstaro/genact.svg?style=flat)](https://cloud.docker.com/repository/docker/svenstaro/genact)
-[![AUR](https://img.shields.io/aur/version/genact.svg)](https://aur.archlinux.org/packages/genact/)
+[![DockerHub](https://img.shields.io/docker/cloud/build/svenstaro/genact.svg?style=flat)](https://cloud.docker.com/repository/docker/svenstaro/genact)
 [![Crates.io](https://img.shields.io/crates/v/genact.svg)](https://crates.io/crates/genact)
 [![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/svenstaro/genact/blob/master/LICENSE)
 [![Stars](https://img.shields.io/github/stars/svenstaro/genact.svg)](https://github.com/svenstaro/genact/stargazers)
@@ -60,7 +59,7 @@ or (on Docker)
 
 ### Usage
 
-    genact 0.10.0
+    genact 0.11.0
     Sven-Hendrik Haase <svenstaro@gmail.com>
     A nonsense activity generator
 
@@ -73,12 +72,13 @@ or (on Docker)
         -V, --version         Prints version information
 
     OPTIONS:
-        -e, --exit-after <exit-after>    Exit after running for this long (format example: 2h10min)
-        -m, --modules <modules>...       Run only these modules [possible values: bootlog, botnet,
-                                         cargo, cc, composer, cryptomining, simcity,
-                                         download, docker, docker_build, memdump, mkinitcpio,
-                                         kernel_compile, weblog]
-        -s, --speed-factor <speed-factor>    Global speed factor [default: 1]
+            --exit-after-modules <exit-after-modules>    Exit after running this many modules
+            --exit-after-time <exit-after-time>          Exit after running for this long (format example: 2h10min)
+        -m, --modules <modules>...
+                Run only these modules [possible values: botnet, bootlog, kernel_compile,
+                memdump, cargo, cc, composer, docker_build, cryptomining,
+                download, mkinitcpio, weblog, docker_image_rm, simcity]
+        -s, --speed-factor <speed-factor>                Global speed factor [default: 1]
 
 ### Web usage
 
@@ -102,8 +102,9 @@ Then, just clone it like usual and `cargo run` to get output:
 
 This is mostly a note for me on how to release this thing:
 
+- Make sure `CHANGELOG.md` is up to date.
 - `cargo release --dry-run`
 - `cargo release`
 - Releases will automatically be deployed by Github Actions.
 - Docker images will automatically be built by Docker Hub.
-- Update AUR package.
+- Update Arch package.

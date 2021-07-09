@@ -33,17 +33,25 @@ jobs:
           profile: minimal
           toolchain: stable
           override: true
+          target: ${{ matrix.target }}
           components: rustfmt, clippy
 
       - uses: actions-rs/install@v0.1
         with:
-          crate: wasm-pack
+          crate: trunk
           version: latest
           use-tool-cache: true
         if: matrix.target == 'wasm32-unknown-unknown'
 
-      - name: wasm-pack build
-        run: wasm-pack build --target=web --no-typescript
+      - uses: actions-rs/install@v0.1
+        with:
+          crate: wasm-bindgen-cli
+          version: latest
+          use-tool-cache: true
+        if: matrix.target == 'wasm32-unknown-unknown'
+
+      - name: trunk build
+        run: trunk build --release
         if: matrix.target == 'wasm32-unknown-unknown'
 
       - name: cargo build

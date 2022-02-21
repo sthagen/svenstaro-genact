@@ -7,7 +7,7 @@ use yansi::Paint;
 use crate::args::AppConfig;
 use crate::data::PACKAGES_LIST;
 use crate::generators::gen_package_version;
-use crate::io::{csleep, dprint};
+use crate::io::{csleep, dprint, newline, print};
 use crate::modules::Module;
 
 pub struct Cargo;
@@ -39,17 +39,12 @@ impl Module for Cargo {
             for &(package_name, ref package_version) in &chosen_packages {
                 let sleep_length = rng.gen_range(100..2000);
 
-                dprint(
-                    format!(
-                        "{stage:>12} {package_name} v{package_version}",
-                        stage = Paint::green(stage).bold(),
-                        package_name = package_name,
-                        package_version = package_version
-                    ),
-                    0,
-                )
+                print(format!(
+                    "{stage:>12} {package_name} v{package_version}",
+                    stage = Paint::green(stage).bold(),
+                ))
                 .await;
-                dprint("\r\n", 0).await;
+                newline().await;
 
                 csleep(sleep_length).await;
 
@@ -64,11 +59,10 @@ impl Module for Cargo {
             format!(
                 "{stage:>12} release [optimized] target(s) in {seconds:.2} secs",
                 stage = Paint::green("Finished").bold(),
-                seconds = seconds
             ),
             0,
         )
         .await;
-        dprint("\r\n", 0).await;
+        newline().await;
     }
 }

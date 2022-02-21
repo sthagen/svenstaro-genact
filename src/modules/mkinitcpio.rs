@@ -6,8 +6,8 @@ use regex::Regex;
 use yansi::Paint;
 
 use crate::args::AppConfig;
-use crate::data::{BOOT_HOOKS_LIST, CFILES_LIST, COMPRESSION_ALGORITHMS_LIST, OS_RELEASES_LIST};
-use crate::io::{csleep, print};
+use crate::data::{BOOT_HOOKS_LIST, CFILES_LIST, COMPRESSION_FORMATS_LIST, OS_RELEASES_LIST};
+use crate::io::{csleep, newline, print};
 use crate::modules::Module;
 
 const REQUIRED_HOOKS: &[&str] = &[
@@ -27,7 +27,7 @@ async fn warn(msg: &str) {
         Paint::new(msg).bold()
     ))
     .await;
-    print("\r\n").await;
+    newline().await;
 }
 
 async fn msg1(msg: &str) {
@@ -37,7 +37,7 @@ async fn msg1(msg: &str) {
         Paint::new(msg).bold()
     ))
     .await;
-    print("\r\n").await;
+    newline().await;
 }
 
 async fn msg2(msg: &str) {
@@ -47,7 +47,7 @@ async fn msg2(msg: &str) {
         Paint::new(msg).bold()
     ))
     .await;
-    print("\r\n").await;
+    newline().await;
 }
 
 async fn build(
@@ -62,12 +62,8 @@ async fn build(
     let mut rng = thread_rng();
 
     msg1(
-        format!(
-            "Building image from preset: /etc/mkinitcpio.d/{preset}.preset: '{mode}'",
-            preset = preset,
-            mode = mode
-        )
-        .as_ref(),
+        format!("Building image from preset: /etc/mkinitcpio.d/{preset}.preset: '{mode}'",)
+            .as_ref(),
     )
     .await;
 
@@ -81,24 +77,16 @@ async fn build(
         }
     );
 
-    msg2(
-        format!(
-            "-k /boot/vmlinuz-{preset} -c /etc/mkinitcpio.conf -g {image}",
-            preset = preset,
-            image = image
-        )
-        .as_ref(),
-    )
-    .await;
-    msg1(format!("Starting build: {}", os_release).as_ref()).await;
+    msg2(format!("-k /boot/vmlinuz-{preset} -c /etc/mkinitcpio.conf -g {image}",).as_ref()).await;
+    msg1(format!("Starting build: {os_release}").as_ref()).await;
 
     for hook in hooks {
-        msg2(format!("Running build hook: [{}]", hook).as_ref()).await;
+        msg2(format!("Running build hook: [{hook}]").as_ref()).await;
         csleep(rng.gen_range(50..1000)).await;
 
         if *hook == "block" && mode == "fallback" {
             for driver in drivers {
-                warn(format!("Possibly missing firmware for module: {}", driver).as_ref()).await;
+                warn(format!("Possibly missing firmware for module: {driver}").as_ref()).await;
             }
         }
 
@@ -110,15 +98,7 @@ async fn build(
     msg1("Generating module dependencies").await;
     csleep(rng.gen_range(200..500)).await;
 
-    msg1(
-        format!(
-            "Creating {zip}-compressed initcpio image: {image}",
-            image = image,
-            zip = zip
-        )
-        .as_ref(),
-    )
-    .await;
+    msg1(format!("Creating {zip}-compressed initcpio image: {image}",).as_ref()).await;
     csleep(rng.gen_range(500..2500)).await;
 
     msg1("Image generation successful").await;
@@ -173,7 +153,7 @@ impl Module for Mkinitcpio {
         // For now, the preset is always the same.
         let preset = "linux";
         let os_release = OS_RELEASES_LIST.choose(&mut rng).unwrap();
-        let zip = COMPRESSION_ALGORITHMS_LIST.choose(&mut rng).unwrap();
+        let zip = COMPRESSION_FORMATS_LIST.choose(&mut rng).unwrap();
 
         build(
             &hooks, preset, "default", zip, &drivers, os_release, appconfig,

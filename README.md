@@ -1,7 +1,7 @@
 # genact - a nonsense activity generator
 
 [![CI](https://github.com/svenstaro/genact/workflows/CI/badge.svg)](https://github.com/svenstaro/genact/actions)
-[![DockerHub](https://img.shields.io/docker/cloud/build/svenstaro/genact.svg?style=flat)](https://cloud.docker.com/repository/docker/svenstaro/genact)
+[![Docker Hub](https://img.shields.io/docker/pulls/svenstaro/genact)](https://cloud.docker.com/repository/docker/svenstaro/genact/)
 [![Crates.io](https://img.shields.io/crates/v/genact.svg)](https://crates.io/crates/genact)
 [![license](http://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/svenstaro/genact/blob/master/LICENSE)
 [![Stars](https://img.shields.io/github/stars/svenstaro/genact.svg)](https://github.com/svenstaro/genact/stargazers)
@@ -71,7 +71,7 @@ or (on Docker)
 
 ### Usage
 
-    genact 0.12.0
+    genact 1.0.2
     Sven-Hendrik Haase <svenstaro@gmail.com>
     A nonsense activity generator
 
@@ -83,8 +83,9 @@ or (on Docker)
             --exit-after-time <EXIT_AFTER_TIME>          Exit after running for this long (format example: 2h10min)
         -h, --help                                       Print help information
         -l, --list-modules                               List available modules
-        -m, --modules <MODULES>                          Run only these modules [possible values: weblog, mkinitcpio, simcity, memdump, composer, ansible, bootlog, docker_build, download, botnet,
-                                                         kernel_compile, cargo, cc, docker_image_rm, cryptomining]
+        -m, --modules <MODULES>                          Run only these modules [possible values: kernel_compile, cryptomining, weblog, memdump,
+                                                         docker_image_rm, mkinitcpio, download, composer, botnet, rkhunter, simcity, bootlog,
+                                                         cargo, cc, ansible, docker_build]
         -s, --speed-factor <SPEED_FACTOR>                Global speed factor [default: 1]
         -V, --version                                    Print version information
 
@@ -114,5 +115,4 @@ This is mostly a note for me on how to release this thing:
 - `cargo release --dry-run`
 - `cargo release`
 - Releases will automatically be deployed by Github Actions.
-- Docker images will automatically be built by Docker Hub.
 - Update Arch package.

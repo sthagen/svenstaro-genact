@@ -8,7 +8,18 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 <!-- next-header -->
 
 ## [Unreleased] - ReleaseDate
+
+## [1.0.2] - 2022-09-10
+- Use less CPU when printing large strings
+- Improve release flow
+
+## [1.0.1] - 2022-09-09
+- Update deps
+- Fix Docker Hub image publishing
+
+## [1.0.0] - 2022-09-07
 - Add a bunch more extensions and file formats
+- Add rkhunter module [#381](https://github.com/svenstaro/genact/pull/381)
 
 ## [0.12.0] - 2022-02-21
 - Add Ansible module [#301](https://github.com/svenstaro/genact/issues/301)
@@ -33,7 +44,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Rewrite web version using wasm-bindgen
 
 <!-- next-url -->
-[Unreleased]: https://github.com/svenstaro/genact/compare/v0.12.0...HEAD
+[Unreleased]: https://github.com/svenstaro/genact/compare/v1.0.2...HEAD
+[1.0.2]: https://github.com/svenstaro/genact/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/svenstaro/genact/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/svenstaro/genact/compare/v0.12.0...v1.0.0
 [0.12.0]: https://github.com/svenstaro/genact/compare/v0.11.0...v0.12.0
 [0.11.0]: https://github.com/svenstaro/genact/compare/v0.10.0...v0.11.0
 [0.10.0]: https://github.com/svenstaro/genact/compare/v0.9.0...v0.10.0

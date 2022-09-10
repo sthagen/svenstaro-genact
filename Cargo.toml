@@ -1,7 +1,7 @@
 [package]
 name = "genact"
 description = "A nonsense activity generator"
-version = "0.12.0"
+version = "1.0.2"
 repository = "https://github.com/svenstaro/genact"
 authors = ["Sven-Hendrik Haase <svenstaro@gmail.com>"]
 license = "MIT"
@@ -14,37 +14,34 @@ edition = "2018"
 lto = true
 opt-level = 'z'
 codegen-units = 1
-panic = 'abort'
+strip = true
 
 [dependencies]
-yansi = "0.5"
+anyhow = "1"
+async-std = { version = "1", features = ["attributes"] }
+async-trait = "0.1"
+chrono = { version = "0.4", features = ["clock", "wasmbind"], default-features = false }
+fake = { version = "2.4", features = ["chrono"] }
+getrandom = { version = "0.2", features = ["js"] }
+humansize = "1"
+humantime = "2"
+instant = { version = "0.1", features = ["now", "wasm-bindgen"] }
+lazy_static = "1.4"
+progress_string = "0.2"
 rand = "0.8"
 rand_distr = "0.4"
-chrono = { version = "0.4", features = ["wasmbind"] }
-url = "2.2"
-lazy_static = "1.4"
-humantime = "2"
-humansize = "1"
 regex = "1.5"
-fake = { version = "2.4", features = ["chrono"] }
-wasm-bindgen = "0.2"
-anyhow = "1"
-progress_string = "0.2"
-instant = { version = "0.1", features = ["now", "wasm-bindgen"] }
-console_error_panic_hook = "0.1"
-wasm-bindgen-futures = "0.4"
-js-sys = "0.3"
-futures = "0.3"
-getrandom = { version = "0.2", features = ["js"] }
-async-trait = "0.1"
-async-std = "1"
+yansi = "0.5"
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 clap = { version = "3.2", features = ["derive", "wrap_help"] }
 ctrlc = { version = "3.2", features = ["termination"] }
-async-std = { version = "1.12", features = ["attributes"] }
 terminal_size = "0.2"
 
-[dependencies.web-sys]
-version = "0.3"
-features = ["Window", "Location", "console"]
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+console_error_panic_hook = "0.1"
+js-sys = "0.3"
+url = "2.2"
+wasm-bindgen = "0.2"
+wasm-bindgen-futures = "0.4"
+web-sys = { version = "0.3", features = ["Window", "Location", "console"] }

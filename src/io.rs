@@ -1,6 +1,10 @@
 //! Module containing functionality for I/O operations.
 
+#[cfg(target_arch = "wasm32")]
 use wasm_bindgen::prelude::*;
+
+#[cfg(not(target_arch = "wasm32"))]
+use std::io::{stdout, Write};
 
 use crate::SPEED_FACTOR;
 
@@ -27,6 +31,7 @@ pub async fn csleep(length: u64) {
     let _ = wasm_bindgen_futures::JsFuture::from(promise).await;
 }
 
+#[cfg(target_arch = "wasm32")]
 #[wasm_bindgen(inline_js = "export function write_to_xterm(s) { window.xterm.write(s) }")]
 extern "C" {
     pub fn write_to_xterm(s: &str);
@@ -49,8 +54,6 @@ pub async fn dprint<S: Into<String>>(s: S, delay: u64) {
 
         #[cfg(not(target_arch = "wasm32"))]
         {
-            use std::io::stdout;
-            use std::io::Write;
             print!("{}", c);
             stdout().flush().unwrap();
         }
@@ -63,7 +66,16 @@ pub async fn dprint<S: Into<String>>(s: S, delay: u64) {
 
 /// Print `s`.
 pub async fn print<S: Into<String>>(s: S) {
-    dprint(s, 0).await;
+    #[cfg(target_arch = "wasm32")]
+    {
+        write_to_xterm(&s.into());
+    }
+
+    #[cfg(not(target_arch = "wasm32"))]
+    {
+        print!("{}", s.into());
+        stdout().flush().unwrap();
+    }
 }
 
 /// Print a newline.

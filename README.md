@@ -71,7 +71,7 @@ or (on Docker)
 
 ### Usage
 
-    genact 1.0.2
+    genact 1.1.1
     Sven-Hendrik Haase <svenstaro@gmail.com>
     A nonsense activity generator
 
@@ -112,7 +112,7 @@ Then, just clone it like usual and `cargo run` to get output:
 This is mostly a note for me on how to release this thing:
 
 - Make sure `CHANGELOG.md` is up to date.
-- `cargo release --dry-run`
-- `cargo release`
-- Releases will automatically be deployed by Github Actions.
+- `cargo release <version>`
+- `cargo release --execute <version>`
+- Releases will automatically be deployed by GitHub Actions.
 - Update Arch package.

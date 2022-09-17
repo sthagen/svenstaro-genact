@@ -9,6 +9,15 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased] - ReleaseDate
 
+## [1.1.1] - 2022-09-13
+- Fixed julia module logo in web version [#400](https://github.com/svenstaro/genact/pull/392) (thanks @FedericoStra)
+- Update deps
+
+## [1.1.0] - 2022-09-13
+- Use musl binaries inside container image
+- Add julia module [#392](https://github.com/svenstaro/genact/pull/392) (thanks @FedericoStra)
+- Fix wasm version
+
 ## [1.0.2] - 2022-09-10
 - Use less CPU when printing large strings
 - Improve release flow
@@ -19,7 +28,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [1.0.0] - 2022-09-07
 - Add a bunch more extensions and file formats
-- Add rkhunter module [#381](https://github.com/svenstaro/genact/pull/381)
+- Add rkhunter module [#381](https://github.com/svenstaro/genact/pull/381) (thanks @Kovah)
 
 ## [0.12.0] - 2022-02-21
 - Add Ansible module [#301](https://github.com/svenstaro/genact/issues/301)
@@ -44,7 +53,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Rewrite web version using wasm-bindgen
 
 <!-- next-url -->
-[Unreleased]: https://github.com/svenstaro/genact/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/svenstaro/genact/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/svenstaro/genact/compare/v1.1.0...v1.1.1
+[1.1.0]: https://github.com/svenstaro/genact/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/svenstaro/genact/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/svenstaro/genact/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/svenstaro/genact/compare/v0.12.0...v1.0.0

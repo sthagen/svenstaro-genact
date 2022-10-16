@@ -9,6 +9,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased] - ReleaseDate
 
+## [1.2.2] - 2022-10-10
+- Add manpage printing via `--print-manpage`
+- Add completions printing via `--print-completions`
+
+## [1.2.1] - 2022-10-10
+- Enable multiple parallel decryptions to run in bruteforce [#414](https://github.com/svenstaro/genact/pull/414) (thanks @equal-l2)
+
+## [1.2.0] - 2022-10-09
+- Add bruteforce module [#408](https://github.com/svenstaro/genact/pull/408) (thanks @equal-l2)
+
 ## [1.1.1] - 2022-09-13
 - Fixed julia module logo in web version [#400](https://github.com/svenstaro/genact/pull/392) (thanks @FedericoStra)
 - Update deps
@@ -53,7 +63,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Rewrite web version using wasm-bindgen
 
 <!-- next-url -->
-[Unreleased]: https://github.com/svenstaro/genact/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/svenstaro/genact/compare/v1.2.2...HEAD
+[1.2.2]: https://github.com/svenstaro/genact/compare/v1.2.1...v1.2.2
+[1.2.1]: https://github.com/svenstaro/genact/compare/v1.2.0...v1.2.1
+[1.2.0]: https://github.com/svenstaro/genact/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/svenstaro/genact/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/svenstaro/genact/compare/v1.0.2...v1.1.0
 [1.0.2]: https://github.com/svenstaro/genact/compare/v1.0.1...v1.0.2

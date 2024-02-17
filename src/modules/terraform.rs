@@ -1,7 +1,8 @@
 //! Pretend to run Terraform
 use async_trait::async_trait;
-use rand::distributions::{Bernoulli, Distribution};
+use instant::Instant;
 use rand::prelude::*;
+use rand_distr::FisherF;
 use yansi::Paint;
 
 use crate::args::AppConfig;
@@ -31,6 +32,7 @@ impl Module for Terraform {
 
     async fn run(&self, appconfig: &AppConfig) {
         let mut rng = thread_rng();
+        let num_resources = rng.gen_range(30..300);
 
         print("Acquiring state lock. This may take a few moments...\r\n").await;
         csleep(500).await;
@@ -41,7 +43,7 @@ impl Module for Terraform {
         let mut destroyed = 0;
 
         // Start counting time
-        let start = std::time::Instant::now();
+        let start = Instant::now();
 
         // Randomize the cloud provider
         let cloud = match rng.gen_range(0..3) {
@@ -51,7 +53,7 @@ impl Module for Terraform {
             _ => unreachable!(),
         };
 
-        loop {
+        for _ in 1..num_resources {
             // Based on the cloud provider, randomize a resource name
             let resource = match cloud {
                 "AWS" => TERRAFORM_AWS_RESOURCES_LIST
@@ -126,18 +128,20 @@ impl Module for Terraform {
                 }
             };
 
-            // Sleep for a random time between 100ms and 2s based on Bernoulli distribution
-            let dist = Bernoulli::new(0.5).unwrap();
-            if dist.sample(&mut rng) {
-                csleep(rng.gen_range(100..3000)).await;
-            }
+            // Sleep for a random time where most often we sleep only for a short time but
+            // sometimes there will be modules that take a long time.
+            let base_sleep_time_ms = 100.0;
+
+            let dist = FisherF::new(5.0, 5.0).unwrap();
+            let sleep_duration = dist.sample(&mut rng) * base_sleep_time_ms;
+            csleep(sleep_duration as u64).await;
 
             // Check if program wants to exit and print the final message
             if appconfig.should_exit() {
                 print(format!(
-                    "\r\nApply complete! Resources: {added} added, {changed} changed, {destroyed} destroyed.\r\n"
+                        "\r\nApply complete! Resources: {added} added, {changed} changed, {destroyed} destroyed.\r\n"
                 ))
-                .await;
+                    .await;
                 break;
             }
         }

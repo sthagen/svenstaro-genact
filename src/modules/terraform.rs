@@ -1,7 +1,10 @@
 //! Pretend to run Terraform
 use async_trait::async_trait;
 use instant::Instant;
-use rand::prelude::*;
+use rand::rng;
+use rand::seq::IteratorRandom;
+use rand::Rng;
+use rand_distr::Distribution;
 use rand_distr::FisherF;
 use yansi::Paint;
 
@@ -31,8 +34,8 @@ impl Module for Terraform {
     }
 
     async fn run(&self, appconfig: &AppConfig) {
-        let mut rng = thread_rng();
-        let num_resources = rng.gen_range(30..300);
+        let mut rng = rng();
+        let num_resources = rng.random_range(30..300);
 
         print("Acquiring state lock. This may take a few moments...\r\n").await;
         csleep(500).await;
@@ -46,7 +49,7 @@ impl Module for Terraform {
         let start = Instant::now();
 
         // Randomize the cloud provider
-        let cloud = match rng.gen_range(0..3) {
+        let cloud = match rng.random_range(0..3) {
             0 => "AWS",
             1 => "AZURE",
             2 => "GCP",
@@ -78,7 +81,7 @@ impl Module for Terraform {
             let secs = start.elapsed().as_secs();
 
             // Randomize a Terraform message to print
-            match rng.gen_range(0..9) {
+            match rng.random_range(0..9) {
                 0 => {
                     bold(format!("{resource}.{id}: Refreshing state... [id={id}]").as_ref()).await;
                 }

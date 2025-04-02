@@ -1,7 +1,9 @@
 //! Pretend to install composer packages
 use async_trait::async_trait;
-use rand::prelude::*;
-use rand_distr::ChiSquared;
+use rand::rngs::ThreadRng;
+use rand::seq::IndexedRandom;
+use rand::{rng, Rng};
+use rand_distr::{ChiSquared, Distribution};
 use yansi::Paint;
 
 use crate::args::AppConfig;
@@ -32,8 +34,8 @@ impl Module for Composer {
     }
 
     async fn run(&self, appconfig: &AppConfig) {
-        let mut rng = thread_rng();
-        let num_packages = rng.gen_range(10..100);
+        let mut rng = rng();
+        let num_packages = rng.random_range(10..100);
         // Choose `num_packages` packages, non-repeating and in random order
         let chosen_names: Vec<_> = COMPOSERS_LIST
             .choose_multiple(&mut rng, num_packages)
@@ -58,7 +60,7 @@ impl Module for Composer {
 
         for stage in &["Installing"] {
             for &(package_name, ref package_version) in &chosen_packages {
-                let sleep_length = rng.gen_range(100..2000);
+                let sleep_length = rng.random_range(100..2000);
 
                 print(format!(
                     "  - {stage} {package_name} ({package_version}): Loading from cache",

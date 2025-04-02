@@ -1,7 +1,8 @@
 //! Pretend to detect rootkits using rkhunter
 use async_trait::async_trait;
 use chrono::Utc;
-use rand::prelude::*;
+use rand::seq::{IndexedRandom, IteratorRandom};
+use rand::{rng, Rng};
 use yansi::Paint;
 
 use crate::args::AppConfig;
@@ -23,7 +24,7 @@ impl Module for RkHunter {
     }
 
     async fn run(&self, appconfig: &AppConfig) {
-        let mut rng = thread_rng();
+        let mut rng = rng();
         let check_positive_probability = 0.05;
 
         print(format!(
@@ -74,7 +75,7 @@ impl Module for RkHunter {
             let task = RKHUNTER_TASKS_LIST.iter().choose(&mut rng).unwrap();
             print(format!("{task}\r\n")).await;
 
-            let is_rootkit = rng.gen_bool(0.5);
+            let is_rootkit = rng.random_bool(0.5);
             let rk_pad = if is_rootkit { "  " } else { "" };
             let rootkit = RKHUNTER_ROOTKITS_LIST.iter().choose(&mut rng).unwrap();
             if is_rootkit {
@@ -82,7 +83,7 @@ impl Module for RkHunter {
             }
 
             let mut rootkit_found = false;
-            let num_checks = rng.gen_range(2..30);
+            let num_checks = rng.random_range(2..30);
             let mut checks: Vec<&&str> = RKHUNTER_CHECKS_LIST
                 .choose_multiple(&mut rng, num_checks)
                 .collect();
@@ -101,9 +102,9 @@ impl Module for RkHunter {
             }
 
             for &check in &checks {
-                csleep(rng.gen_range(200..1000)).await;
+                csleep(rng.random_range(200..1000)).await;
                 // Specify if a check was positive; if yes also set the rootkit to have been found
-                let check_positive = rng.gen_bool(check_positive_probability);
+                let check_positive = rng.random_bool(check_positive_probability);
                 if check_positive {
                     rootkit_found = true;
                 }
@@ -114,7 +115,7 @@ impl Module for RkHunter {
                 } else {
                     "Not found".resetting()
                 };
-                if rng.gen_bool(0.01) {
+                if rng.random_bool(0.01) {
                     check_status = "Skipped".resetting();
                 }
 

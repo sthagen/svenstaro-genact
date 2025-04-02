@@ -1,6 +1,7 @@
 //! Pretend to boot a system
 use async_trait::async_trait;
-use rand::prelude::*;
+use rand::seq::IndexedRandom;
+use rand::{rng, Rng};
 use yansi::Paint;
 
 use crate::args::AppConfig;
@@ -21,16 +22,16 @@ impl Module for Bootlog {
     }
 
     async fn run(&self, appconfig: &AppConfig) {
-        let mut rng = thread_rng();
-        let num_lines = rng.gen_range(50..200);
+        let mut rng = rng();
+        let num_lines = rng.random_range(50..200);
         let mut burst_mode = false;
         let mut count_burst_lines = 0;
 
         for _ in 1..num_lines {
             let choice = BOOTLOG_LIST.choose(&mut rng).unwrap_or(&"");
-            let mut line_sleep_length = rng.gen_range(10..1000);
+            let mut line_sleep_length = rng.random_range(10..1000);
             let mut char_sleep_length = 5;
-            let burst_lines = rng.gen_range(10..50);
+            let burst_lines = rng.random_range(10..50);
 
             if burst_mode && count_burst_lines < burst_lines {
                 line_sleep_length = 30;
@@ -39,14 +40,14 @@ impl Module for Bootlog {
                 burst_mode = false;
                 count_burst_lines = 0;
             } else if !burst_mode {
-                burst_mode = rng.gen_bool(1.0 / 20.0);
+                burst_mode = rng.random_bool(1.0 / 20.0);
             }
 
-            let is_error = rng.gen_bool(0.01);
+            let is_error = rng.random_bool(0.01);
             if is_error {
                 dprint(format!("{}", format!("ERROR: {choice}").red()), 10).await;
             } else {
-                let has_bold_word = rng.gen_bool(0.1);
+                let has_bold_word = rng.random_bool(0.1);
                 if has_bold_word {
                     let mut words: Vec<String> =
                         choice.split_whitespace().map(String::from).collect();

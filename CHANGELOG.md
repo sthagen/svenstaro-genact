@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased] - ReleaseDate
 
+## [1.5.0] - 2026-01-08
+- Add web-platform-tests module [#695](https://github.com/svenstaro/genact/pull/695) (thanks @alimpfard)
+
 ## [1.4.2] - 2024-02-17
 - Use more realistic sleep distribution in Terraform module
 - Make the number of processed resources finite in Terraform module - before it never actually quit
@@ -77,7 +80,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 - Rewrite web version using wasm-bindgen
 
 <!-- next-url -->
-[Unreleased]: https://github.com/svenstaro/genact/compare/v1.4.2...HEAD
+[Unreleased]: https://github.com/svenstaro/genact/compare/v1.5.0...HEAD
+[1.5.0]: https://github.com/svenstaro/genact/compare/v1.4.2...v1.5.0
 [1.4.2]: https://github.com/svenstaro/genact/compare/v1.4.1...v1.4.2
 [1.4.1]: https://github.com/svenstaro/genact/compare/v1.4.0...v1.4.1
 [1.4.0]: https://github.com/svenstaro/genact/compare/v1.3.0...v1.4.0

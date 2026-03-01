@@ -3,7 +3,7 @@ use std::cmp;
 use std::path::{Path, PathBuf};
 use std::str;
 
-use rand::Rng;
+use rand::RngExt;
 use rand::distr::Uniform;
 use rand::rngs::ThreadRng;
 use rand::seq::IndexedRandom;
